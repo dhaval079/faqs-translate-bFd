@@ -2,6 +2,64 @@
 
 A robust multilingual FAQ management system built with Node.js, Express, and MongoDB. The system supports dynamic translation of FAQs into multiple languages with advanced caching mechanisms for optimal performance.
 
+
+## 🌐 Public URLs
+
+- **Production URL**: [https://faq-translation-system.onrender.com](https://faqs-translate-bfd.onrender.com)
+- **Test/Staging URL**: [https://faq-translation-system-test.onrender.com](https://faqs-translate-bfd.onrender.com)
+
+## 👨‍💼 Admin Testing
+
+### Test Admin Credentials
+```
+URL: https://faqs-translate-bfd.onrender.com/admin
+
+```
+
+1. **FAQ Management Testing**
+   ```bash
+   # Create FAQ
+   curl -X POST https://faqs-translate-bfd.onrender.com/admin/faqs/create \
+     -H "Content-Type: application/json" \
+     -H "Cookie: session=your_session_cookie" \
+     -d '{
+       "question": "Test Question",
+       "answer": "<p>Test Answer</p>"
+     }'
+    ```
+
+### Admin Testing Checklist
+
+1. **Mandatory Tests**
+   - [ ] Session persistence
+
+2. **FAQ Management Tests**
+   - [ ] Create new FAQ
+   - [ ] Edit existing FAQ
+   - [ ] Delete FAQ
+   - [ ] View FAQ list
+   - [ ] Search FAQs
+
+3. **Translation Tests**
+   - [ ] Auto-translation on FAQ creation
+   - [ ] Manual translation override
+   - [ ] Translation preview
+   - [ ] Multi-language support verification
+
+4. **WYSIWYG Editor Tests**
+   - [ ] Rich text formatting
+   - [ ] Image upload
+   - [ ] HTML cleaning
+   - [ ] Content preview
+
+5. **Cache Management Tests**
+   - [ ] Cache creation
+   - [ ] Cache invalidation
+   - [ ] Cache update
+   - [ ] Performance verification
+
+
+
 ## 🚀 Features
 
 - Multi-language FAQ management with automatic translation
