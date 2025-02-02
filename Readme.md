@@ -10,6 +10,49 @@ A robust multilingual FAQ management system built with Node.js, Express, and Mon
 - **Production URL**: [https://faqs-translate-bfd.onrender.com](https://faqs-translate-bfd.onrender.com)
 - **Test/Staging URL**: [https://faqs-translate-bfd.onrender.com](https://faqs-translate-bfd.onrender.com)
 
+
+## Screenshots
+![Screenshot of the Dashboard](public/1.png)
+![Screenshot of the Dashboard](public/2.png)
+![Screenshot of the Dashboard](public/3.png)
+![Screenshot of the Dashboard](public/4.png)
+![Screenshot of the Dashboard](public/5.png)
+
+
+##  Features
+
+- Multi-language FAQ management with automatic translation
+- WYSIWYG editor for rich text content
+- Redis caching for improved performance
+- RESTful API with language selection support
+- Secure admin panel for content management
+- Comprehensive test coverage
+- Docker support for easy deployment
+- MongoDB Atlas Cloud integration
+- Express session management with Flash messages
+- Helmet security middleware
+- CORS enabled
+- Method override support
+- EJS templating with layouts
+
+## 🛠️ Technology Stack
+
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB Atlas Cloud
+- **Caching**: Redis Cloud
+- **Testing**: Mocha/Chai
+- **Container**: Docker
+- **Template Engine**: EJS
+- **Code Quality**: ESLint, Prettier
+- **Version Control**: Git
+- **Security**: Helmet, CORS
+- **Logging**: Morgan
+- **Session Management**: express-session
+- **Flash Messages**: connect-flash
+
+
+
+
 ## 👨‍💼 Admin Testing
 
 ### Test Admin Credentials
@@ -62,36 +105,6 @@ URL: https://faqs-translate-bfd.onrender.com/admin
 
 
 
-## 🚀 Features
-
-- Multi-language FAQ management with automatic translation
-- WYSIWYG editor for rich text content
-- Redis caching for improved performance
-- RESTful API with language selection support
-- Secure admin panel for content management
-- Comprehensive test coverage
-- Docker support for easy deployment
-- MongoDB Atlas Cloud integration
-- Express session management with Flash messages
-- Helmet security middleware
-- CORS enabled
-- Method override support
-- EJS templating with layouts
-
-## 🛠️ Technology Stack
-
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB Atlas Cloud
-- **Caching**: Redis Cloud
-- **Testing**: Mocha/Chai
-- **Container**: Docker
-- **Template Engine**: EJS
-- **Code Quality**: ESLint, Prettier
-- **Version Control**: Git
-- **Security**: Helmet, CORS
-- **Logging**: Morgan
-- **Session Management**: express-session
-- **Flash Messages**: connect-flash
 
 ## 📋 Prerequisites
 
