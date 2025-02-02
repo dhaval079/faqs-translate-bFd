@@ -1,0 +1,38 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>FAQ Management</h1>
+    <a href="http://localhost:3000/admin/faqs/create" class="btn btn-primary">Create New FAQ</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (faqs && faqs.length > 0) { %>
+                <% faqs.forEach(faq => { %>
+                    <tr>
+                        <td><%= faq.question %></td>
+                        <td><%= new Date(faq.createdAt).toLocaleDateString() %></td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="http://localhost:3000/admin/faqs/<%= faq._id %>/edit" class="btn btn-sm btn-warning">Edit</a>
+                                <form action="http://localhost:3000/admin/faqs/<%= faq._id %>?_method=DELETE" method="POST" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="3" class="text-center">No FAQs found</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
