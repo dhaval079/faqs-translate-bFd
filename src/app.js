@@ -82,8 +82,12 @@ app.use('/api', apiRoutes);
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'ok' });
 });
+
 app.get('/', (req, res) => {
-    res.status(200).json({ status: 'Server is running' });
+    res.render('welcome', {
+        title: 'Welcome to FAQ Translation System',
+        layout: false // Disable the layout for this page
+    });
 });
 
 // Error handling middleware
