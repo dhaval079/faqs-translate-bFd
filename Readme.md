@@ -3,7 +3,7 @@
 A robust multilingual FAQ management system built with Node.js, Express, and MongoDB. The system supports dynamic translation of FAQs into multiple languages with advanced caching mechanisms for optimal performance.
 
 
-## 🌐 Public URLs
+## Public URLs
 
 - **Wait for 5-10s for it to load as it is on free tier temporary**
 
@@ -35,7 +35,7 @@ A robust multilingual FAQ management system built with Node.js, Express, and Mon
 - Method override support
 - EJS templating with layouts
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB Atlas Cloud
@@ -51,9 +51,7 @@ A robust multilingual FAQ management system built with Node.js, Express, and Mon
 - **Flash Messages**: connect-flash
 
 
-
-
-## 👨‍💼 Admin Testing
+##  Admin Testing
 
 ### Test Admin Credentials
 ```
@@ -76,45 +74,43 @@ URL: https://faqs-translate-bfd.onrender.com/admin
 ### Admin Testing Checklist
 
 1. **Mandatory Tests**
-   - [ ] Session persistence
+   - [✅] Session persistence
 
 2. **FAQ Management Tests**
-   - [ ] Create new FAQ
-   - [ ] Edit existing FAQ
-   - [ ] Delete FAQ
-   - [ ] View FAQ list
-   - [ ] Search FAQs
+   - [✅]  Create new FAQ
+   - [✅]  Edit existing FAQ
+   - [✅]  Delete FAQ
+   - [✅]  View FAQ list
+   - [✅]  Search FAQs
 
 3. **Translation Tests**
-   - [ ] Auto-translation on FAQ creation
-   - [ ] Manual translation override
-   - [ ] Translation preview
-   - [ ] Multi-language support verification
+   - [✅]  Auto-translation on FAQ creation
+   - [✅]  Manual translation override
+   - [✅]  Translation preview
+   - [✅]  Multi-language support verification
 
 4. **WYSIWYG Editor Tests**
-   - [ ] Rich text formatting
-   - [ ] Image upload
-   - [ ] HTML cleaning
-   - [ ] Content preview
+   - [✅]  Rich text formatting
+   - [✅]  Image upload
+   - [✅]  HTML cleaning
+   - [✅]  Content preview
 
 5. **Cache Management Tests**
-   - [ ] Cache creation
-   - [ ] Cache invalidation
-   - [ ] Cache update
-   - [ ] Performance verification
+   - [✅]  Cache creation
+   - [✅]  Cache invalidation
+   - [✅]  Cache update
+   - [✅]  Performance verification
 
 
-
-
-## 📋 Prerequisites
+##  Prerequisites
 
 - Node.js (v14 or higher)
 - MongoDB Atlas account
 - Redis Cloud account
 - Docker and Docker Compose (optional)
-- Google Translate API credentials
+- Google Translate API credentials or Azure
 
-## 🔧 Installation
+##  Installation
 
 1. Clone the repository:
 ```bash
@@ -154,7 +150,7 @@ npm run dev
 npm start
 ```
 
-## 🛣️ API Routes
+##  API Routes
 
 ### API Endpoints
 Base URL: `/api`
@@ -213,7 +209,7 @@ curl -X PUT http://localhost:3000/admin/faqs/123456789 \
   }'
 ```
 
-## 🐳 Docker Deployment
+##  Docker Deployment
 
 1. Build and run using Docker Compose:
 ```bash
@@ -237,7 +233,7 @@ services:
 
 The application will be available at `http://localhost:3000`
 
-## 🔒 Security Features
+##  Security Features
 
 - **Helmet**: Secure HTTP headers
 - **CORS**: Configurable Cross-Origin Resource Sharing
@@ -245,7 +241,7 @@ The application will be available at `http://localhost:3000`
 - **CSP**: Content Security Policy for resources
 - **Method Override**: Secure handling of PUT/DELETE requests
 
-## 📚 Documentation
+##  Documentation
 
 ### API Response Format
 
@@ -282,7 +278,7 @@ Error Response:
 }
 ```
 
-## 🧪 Testing
+##  Testing
 
 ```bash
 # Run all tests
@@ -311,7 +307,7 @@ test/
 └─ test-config.js
 ```
 
-## 💾 Database Schema
+##  Database Schema
 
 FAQ Model:
 ```javascript
@@ -333,7 +329,7 @@ FAQ Model:
 }
 ```
 
-## ⚡ Caching Strategy
+##  Caching Strategy
 
 Redis caching implementation:
 - Cache key format: `faq:{id}:{lang}`
@@ -341,7 +337,7 @@ Redis caching implementation:
 - Auto-invalidation on updates
 - Fallback to database on cache miss
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
 faq-translation-system/
@@ -370,13 +366,13 @@ faq-translation-system/
 └─ test/             # Test files
 ```
 
-## 🌐 Supported Languages
+##  Supported Languages
 
 - English (en) - Default
 - Hindi (hi)
 - Bengali (bn)
 
-## 🔍 Error Handling
+##  Error Handling
 
 Custom error handling middleware for:
 - 404 Not Found
@@ -384,7 +380,7 @@ Custom error handling middleware for:
 - Validation Errors
 - Authentication Errors
 
-## 🤝 Contributing
+##  Contributing
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/new-feature`
@@ -392,11 +388,11 @@ Custom error handling middleware for:
 4. Push to the branch: `git push origin feature/new-feature`
 5. Submit a Pull Request
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Express.js team
 - MongoDB Atlas
