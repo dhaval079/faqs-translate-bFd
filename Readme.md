@@ -66,6 +66,10 @@ MONGODB_URI=your_mongodb_atlas_uri
 REDIS_URL=your_redis_cloud_url
 SESSION_SECRET=your_session_secret
 GOOGLE_TRANSLATE_API_KEY=your_google_translate_api_key
+NODE_ENV=development_mode
+AZURE_TRANSLATOR_KEY=your_acuze_api_key
+AZURE_TRANSLATOR_ENDPOINT=your_azure_endppint
+AZURE_TRANSLATOR_REGION=your_azure_region
 ```
 
 4. Run the application:
