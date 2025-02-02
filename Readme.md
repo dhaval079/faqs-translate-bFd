@@ -5,6 +5,8 @@ A robust multilingual FAQ management system built with Node.js, Express, and Mon
 
 ## 🌐 Public URLs
 
+- **Wait for 5-10s for it to load as it is on free tier temporary**
+
 - **Production URL**: [https://faqs-translate-bfd.onrender.com](https://faqs-translate-bfd.onrender.com)
 - **Test/Staging URL**: [https://faqs-translate-bfd.onrender.com](https://faqs-translate-bfd.onrender.com)
 
