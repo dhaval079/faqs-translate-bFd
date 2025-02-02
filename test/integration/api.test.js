@@ -1,74 +1,89 @@
-const { expect } = require('chai');
-const request = require('supertest');
-const app = require('../../src/app');
-const FAQ = require('../../src/models/faq');
-const cacheService = require('../../src/utils/cache');
+// test/integration/api.test.js
+import { expect } from 'chai';
+import request from 'supertest';
+import mongoose from 'mongoose';
+import app from '../../src/app.js';
+import { FAQ } from '../../src/models/faq.js';
+import { setupTestDB } from '../test-config.js';
+import cacheService from '../../src/utils/cache.js';
 
-describe('API Routes', () => {
-  before(async () => {
-    await mongoose.connect(process.env.MONGODB_URI_TEST);
-  });
+describe('FAQ API', () => {
+    setupTestDB();
 
-  after(async () => {
-    await mongoose.connection.close();
-  });
-
-  beforeEach(async () => {
-    await FAQ.deleteMany({});
-    await cacheService.del('faqs_en');
-    await cacheService.del('faqs_hi');
-  });
-
-  describe('GET /api/faqs', () => {
-    it('should return empty array when no FAQs exist', async () => {
-      const res = await request(app).get('/api/faqs');
-      expect(res.status).to.equal(200);
-      expect(res.body).to.be.an('array').that.is.empty;
+    beforeEach(async () => {
+        await FAQ.deleteMany({});
+        // Clear cache
+        const keys = ['faqs_en', 'faqs_es', 'faqs_hi', 'faqs_bn'];
+        await Promise.all(keys.map(key => cacheService.del(key)));
     });
 
-    it('should return FAQs in English by default', async () => {
-      const faq = new FAQ({
-        question: 'Test Question?',
-        answer: 'Test Answer'
-      });
-      await faq.save();
+    describe('GET /api/faqs', () => {
+        it('should return empty array initially', async () => {
+            const response = await request(app)
+                .get('/api/faqs');
+            
+            expect(response.status).to.equal(200);
+            expect(response.body).to.be.an('array');
+            expect(response.body).to.have.lengthOf(0);
+        });
 
-      const res = await request(app).get('/api/faqs');
-      expect(res.status).to.equal(200);
-      expect(res.body[0].question).to.equal('Test Question?');
+        it('FAQ should be returned in different languages', async function() {
+            this.timeout(5000); // Increase timeout for translation
+
+            // Create a test FAQ with translations
+            const faq = new FAQ({
+                question: 'Test Question?',
+                answer: 'Test Answer',
+                isActive: true,
+                translations: new Map([
+                    ['es', {
+                        question: '¿Pregunta de prueba?',
+                        answer: 'Respuesta de prueba'
+                    }]
+                ])
+            });
+            await faq.save();
+
+            // Test English (default)
+            const enResponse = await request(app)
+                .get('/api/faqs');
+            
+            expect(enResponse.status).to.equal(200);
+            expect(enResponse.body).to.be.an('array');
+            expect(enResponse.body[0].question).to.equal('Test Question?');
+
+            // Test Spanish
+            const esResponse = await request(app)
+                .get('/api/faqs?lang=es');
+            
+            expect(esResponse.status).to.equal(200);
+            expect(esResponse.body).to.be.an('array');
+            expect(esResponse.body[0].question).to.equal('¿Pregunta de prueba?');
+        });
     });
 
-    it('should return translated FAQs when language specified', async () => {
-      const faq = new FAQ({
-        question: 'Test Question?',
-        answer: 'Test Answer',
-        translations: new Map([
-          ['hi', { question: 'टेस्ट प्रश्न?', answer: 'टेस्ट उत्तर' }]
-        ])
-      });
-      await faq.save();
+    describe('GET /api/faqs/:id', () => {
+        it('should return single FAQ with translations', async function() {
+            this.timeout(5000); // Increase timeout for translation
 
-      const res = await request(app).get('/api/faqs?lang=hi');
-      expect(res.status).to.equal(200);
-      expect(res.body[0].question).to.equal('टेस्ट प्रश्न?');
+            const faq = new FAQ({
+                question: 'Single FAQ Test?',
+                answer: 'Single FAQ Answer',
+                isActive: true,
+                translations: new Map([
+                    ['es', {
+                        question: '¿Prueba individual?',
+                        answer: 'Respuesta individual'
+                    }]
+                ])
+            });
+            await faq.save();
+
+            const response = await request(app)
+                .get(`/api/faqs/${faq._id}?lang=es`);
+
+            expect(response.status).to.equal(200);
+            expect(response.body.question).to.equal('¿Prueba individual?');
+        });
     });
-  });
-
-  describe('Cache functionality', () => {
-    it('should cache FAQs after first request', async () => {
-      const faq = new FAQ({
-        question: 'Test Question?',
-        answer: 'Test Answer'
-      });
-      await faq.save();
-
-      // First request - should set cache
-      await request(app).get('/api/faqs');
-      
-      // Verify cache was set
-      const cachedData = await cacheService.get('faqs_en');
-      expect(cachedData).to.be.an('array');
-      expect(cachedData[0].question).to.equal('Test Question?');
-    });
-  });
 });

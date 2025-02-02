@@ -1,15 +1,31 @@
 // src/app.js
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const morgan = require('morgan');
-const mongoose = require('mongoose');
-const session = require('express-session');
-const flash = require('connect-flash');
-const methodOverride = require('method-override');
-const path = require('path');
-const expressLayouts = require('express-ejs-layouts');
-require('dotenv').config();
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import mongoose from 'mongoose';
+import session from 'express-session';
+import flash from 'connect-flash';
+import methodOverride from 'method-override';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import expressLayouts from 'express-ejs-layouts';
+import dotenv from 'dotenv';
+import adminRoutes from './routes/admin.js';
+import apiRoutes from './routes/api.js';
+
+// Load .env file - Add this at the very top before any other code
+const result = dotenv.config();
+if (result.error) {
+    console.error('Error loading .env file:', result.error);
+} else {
+    console.log('Environment variables loaded successfully');
+}
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 
 const app = express();
 
@@ -17,7 +33,7 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
-app.set('layout', 'layouts/main'); // This will be our default layout
+app.set('layout', 'layouts/main');
 
 // Middleware
 app.use(cors());
@@ -50,24 +66,12 @@ app.use((req, res, next) => {
 });
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => console.log('Connected to MongoDB'))
-.catch(err => console.error('MongoDB connection error:', err));
-
-
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', () => {
-    console.log('Connected to MongoDB');
-});
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
-const adminRoutes = require('./routes/admin');
-const apiRoutes = require('./routes/api');
 app.use((req, res, next) => {
-    // Make base URL available to all templates
     res.locals.baseUrl = `http://localhost:${process.env.PORT || 3000}`;
     next();
 });
@@ -78,6 +82,9 @@ app.use('/api', apiRoutes);
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'ok' });
 });
+app.get('/', (req, res) => {
+    res.status(200).json({ status: 'Server is running' });
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -85,4 +92,4 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: 'Something went wrong!' });
 });
 
-module.exports = app;
+export default app;

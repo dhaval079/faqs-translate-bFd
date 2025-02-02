@@ -1,51 +1,50 @@
 // src/models/faq.js
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const faqSchema = new mongoose.Schema({
-  question: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  answer: {
-    type: String,
-    required: true
-  },
-  translations: {
-    type: Map,
-    of: {
-      question: String,
-      answer: String
+    question: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    answer: {
+        type: String,
+        required: true
+    },
+    translations: {
+        type: Map,
+        of: {
+            question: String,
+            answer: String
+        }
+    },
+    isActive: {
+        type: Boolean,
+        default: true
     }
-  },
-  isActive: {
-    type: Boolean,
-    default: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  }
 }, { timestamps: true });
 
 // Method to get translated content
 faqSchema.methods.getTranslation = function(language) {
-  if (language === 'en') {
+    if (!language || language === 'en') {
+        return {
+            question: this.question,
+            answer: this.answer
+        };
+    }
+
+    const translation = this.translations.get(language);
+    if (!translation) {
+        return {
+            question: this.question,
+            answer: this.answer
+        };
+    }
+
     return {
-      question: this.question,
-      answer: this.answer
+        question: translation.question,
+        answer: translation.answer
     };
-  }
-  return this.translations.get(language) || {
-    question: this.question,
-    answer: this.answer
-  };
 };
 
-const FAQ = mongoose.model('FAQ', faqSchema);
-
-module.exports = FAQ;
+export const FAQ = mongoose.model('FAQ', faqSchema);

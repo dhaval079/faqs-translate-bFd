@@ -1,0 +1,12 @@
+{
+    "extension": ["js"],
+    "spec": "test/**/*.test.js",
+    "require": "test/setup.js",
+    "exit": true,
+    "timeout": 10000,
+    "experimental-specifier-resolution": "node",
+    "node-option": [
+      "experimental-specifier-resolution=node",
+      "no-warnings"
+    ]
+  }

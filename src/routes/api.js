@@ -1,15 +1,16 @@
 // src/routes/api.js
-const express = require('express');
+import express from 'express';
+import { getAllFaqs, getFaqById, searchFaqs } from '../controllers/apiController.js';
+
 const router = express.Router();
-const apiController = require('../controllers/apiController');
 
 // Get all FAQs
-router.get('/faqs', apiController.getAllFaqs);
+router.get('/faqs', getAllFaqs);
 
 // Search FAQs
-router.get('/faqs/search', apiController.searchFaqs);
+router.get('/faqs/search', searchFaqs);
 
 // Get single FAQ (this should come after other /faqs routes)
-router.get('/faqs/:id', apiController.getFaqById);
+router.get('/faqs/:id', getFaqById);
 
-module.exports = router;
+export default router;

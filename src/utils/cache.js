@@ -1,13 +1,36 @@
 // src/utils/cache.js
-const Redis = require('ioredis');
-const redis = new Redis(process.env.REDIS_URL);
+import Redis from 'ioredis';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+let redis = null;
+
+const getRedisClient = () => {
+    if (!redis) {
+        redis = new Redis(process.env.REDIS_URL, {
+            retryStrategy: (times) => {
+                const delay = Math.min(times * 50, 2000);
+                return delay;
+            },
+            maxRetriesPerRequest: 3,
+            enableOfflineQueue: false
+        });
+
+        redis.on('error', (err) => {
+            console.error('Redis connection error:', err);
+        });
+    }
+    return redis;
+};
 
 const CACHE_DURATION = 3600; // 1 hour in seconds
 
 const cacheService = {
     async get(key) {
         try {
-            const data = await redis.get(key);
+            const client = getRedisClient();
+            const data = await client.get(key);
             return data ? JSON.parse(data) : null;
         } catch (error) {
             console.error('Redis get error:', error);
@@ -17,7 +40,8 @@ const cacheService = {
 
     async set(key, data, duration = CACHE_DURATION) {
         try {
-            await redis.setex(key, duration, JSON.stringify(data));
+            const client = getRedisClient();
+            await client.setex(key, duration, JSON.stringify(data));
             return true;
         } catch (error) {
             console.error('Redis set error:', error);
@@ -27,13 +51,25 @@ const cacheService = {
 
     async del(key) {
         try {
-            await redis.del(key);
+            const client = getRedisClient();
+            await client.del(key);
             return true;
         } catch (error) {
             console.error('Redis delete error:', error);
             return false;
         }
+    },
+
+    async close() {
+        try {
+            if (redis) {
+                await redis.quit();
+                redis = null;
+            }
+        } catch (error) {
+            console.error('Redis close error:', error);
+        }
     }
 };
 
-module.exports = cacheService;
+export default cacheService;

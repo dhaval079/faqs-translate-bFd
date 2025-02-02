@@ -4,12 +4,17 @@ services:
   app:
     build: .
     ports:
-      - "3000:3000"
+      - "${PORT}:${PORT}"
     environment:
-      - NODE_ENV=production
-      - MONGODB_URI=mongodb://mongo:27017/faq_db
-      - REDIS_URL=redis://redis:6379
+      - NODE_ENV=${NODE_ENV}
+      - MONGODB_URI=${MONGODB_URI}
+      - REDIS_URL=${REDIS_URL}
       - GOOGLE_TRANSLATE_API_KEY=${GOOGLE_TRANSLATE_API_KEY}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - AZURE_TRANSLATOR_KEY=${AZURE_TRANSLATOR_KEY}
+      - AZURE_TRANSLATOR_ENDPOINT=${AZURE_TRANSLATOR_ENDPOINT}
+      - AZURE_TRANSLATOR_REGION=${AZURE_TRANSLATOR_REGION}
+
     depends_on:
       - mongo
       - redis
