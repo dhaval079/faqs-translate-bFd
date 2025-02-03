@@ -160,14 +160,18 @@
                                                    title="Edit FAQ">
                                                     <i class="ri-edit-line"></i>
                                                 </a>
-                                                <button type="button" 
-                                                        class="btn btn-icon btn-light delete-btn"
-                                                        data-bs-toggle="tooltip"
-                                                        data-bs-placement="top"
-                                                        title="Delete FAQ"
-                                                        onclick="confirmDelete('<%= faq._id %>')">
-                                                    <i class="ri-delete-bin-line text-danger"></i>
-                                                </button>
+                                                <form action="/admin/faqs/<%= faq._id %>?_method=DELETE" 
+                                                      method="POST" 
+                                                      class="d-inline-block"
+                                                      onsubmit="return confirm('Are you sure you want to delete this FAQ?');">
+                                                    <button type="submit" 
+                                                            class="btn btn-icon btn-light"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            title="Delete FAQ">
+                                                        <i class="ri-delete-bin-line text-danger"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
@@ -216,7 +220,37 @@
         </div>
     </div>
 </div>
+<script>
+function confirmDelete(faqId) {
+    if (confirm('Are you sure you want to delete this FAQ?')) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `${window.location.origin}/admin/faqs/${faqId}?_method=DELETE`;
+        
+        // Add CSRF token if you're using it
+        // const csrfToken = document.createElement('input');
+        // csrfToken.type = 'hidden';
+        // csrfToken.name = '_csrf';
+        // csrfToken.value = 'your-csrf-token';
+        // form.appendChild(csrfToken);
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
 
+// Update the event listeners for delete buttons
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const faqId = this.getAttribute('data-faq-id');
+            confirmDelete(faqId);
+        });
+    });
+});
+</script>
 <style>
 /* Custom Properties */
 :root {
@@ -381,5 +415,7 @@
     transform: translateY(-2px);
 }
 
+
 /* Empty State */
 .empty-state-icon
+

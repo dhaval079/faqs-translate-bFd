@@ -15,19 +15,16 @@ import dotenv from 'dotenv';
 import adminRoutes from './routes/admin.js';
 import apiRoutes from './routes/api.js';
 
-// Load .env file - Add this at the very top before any other code
-const result = dotenv.config();
-if (result.error) {
-    console.error('Error loading .env file:', result.error);
-} else {
-    console.log('Environment variables loaded successfully');
-}
+// Load environment variables
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-
 const app = express();
+
+// Method Override configuration - IMPORTANT: Place this before other middleware
+app.use(methodOverride('_method'));
 
 // View engine setup
 app.set('view engine', 'ejs');
@@ -35,28 +32,61 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 app.set('layout', 'layouts/main');
 
-// Middleware
-app.use(cors());
+// Enhanced Helmet configuration with CSP
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
-            ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-            "script-src": ["'self'", "'unsafe-inline'", "cdn.jsdelivr.net", "cdn.ckeditor.com"],
-            "img-src": ["'self'", "data:", "cdn.jsdelivr.net"],
+            defaultSrc: ["'self'"],
+            scriptSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                "'unsafe-eval'",
+                "cdn.jsdelivr.net",
+                "cdn.ckeditor.com"
+            ],
+            styleSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                "cdn.jsdelivr.net",
+                "cdnjs.cloudflare.com"
+            ],
+            imgSrc: ["'self'", "data:", "cdn.jsdelivr.net", "*"],
+            connectSrc: ["'self'"],
+            fontSrc: ["'self'", "cdn.jsdelivr.net", "cdnjs.cloudflare.com"],
+            formAction: ["'self'"],
+            frameAncestors: ["'none'"],
+            objectSrc: ["'none'"],
+            upgradeInsecureRequests: []
         },
     },
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: false
 }));
+
+// CORS configuration
+app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
 
-// Session and Flash setup
-app.use(session({
+// Session configuration
+const sessionConfig = {
     secret: process.env.SESSION_SECRET || 'your-secret-key',
     resave: false,
-    saveUninitialized: false
-}));
+    saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+};
+
+if (app.get('env') === 'production') {
+    app.set('trust proxy', 1);
+    sessionConfig.cookie.secure = true;
+}
+
+app.use(session(sessionConfig));
 app.use(flash());
 
 // Make flash messages available to all views
@@ -70,11 +100,14 @@ mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('MongoDB connection error:', err));
 
-// Routes
+// Base URL middleware
 app.use((req, res, next) => {
-    res.locals.baseUrl = `http://localhost:${process.env.PORT || 3000}`;
+    // Use request protocol and host for base URL
+    res.locals.baseUrl = `${req.protocol}://${req.get('host')}`;
     next();
 });
+
+// Routes
 app.use('/admin', adminRoutes);
 app.use('/api', apiRoutes);
 
@@ -86,7 +119,7 @@ app.get('/health', (req, res) => {
 app.get('/', (req, res) => {
     res.render('welcome', {
         title: 'Welcome to FAQ Translation System',
-        layout: false // Disable the layout for this page
+        layout: false
     });
 });
 
