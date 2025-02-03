@@ -4,26 +4,144 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ Translation System</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Use direct CSS instead of relying on Tailwind -->
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #111827;
+            margin-bottom: 16px;
+        }
+
+        .description {
+            font-size: 1.125rem;
+            color: #6B7280;
+            margin-bottom: 32px;
+        }
+
+        .admin-link {
+            display: inline-block;
+            background-color: #4F46E5;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .admin-link:hover {
+            background-color: #4338CA;
+            transform: translateY(-2px);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .feature {
+            background: #F9FAFB;
+            padding: 24px;
+            border-radius: 12px;
+        }
+
+        .feature h3 {
+            font-size: 1.25rem;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .feature p {
+            color: #6B7280;
+            margin: 0;
+        }
+
+        .subtitle {
+            color: #6B7280;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .icon {
+            font-size: 24px;
+            margin-right: 8px;
+            color: #4F46E5;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
-    <div class="min-h-screen flex items-center justify-center">
-        <div class="max-w-2xl mx-auto text-center p-8 bg-white rounded-lg shadow-lg">
-            <h1 class="text-4xl font-bold text-gray-800 mb-6">Welcome to FAQ Translation System</h1>
-            
-            <p class="text-gray-600 text-lg mb-8">
-                A powerful multilingual FAQ management system with automatic translation capabilities.
-            </p>
-            
-            <div class="space-y-4">
-                <a href="https://faqs-translate-bfd.onrender.com/admin" 
-                   class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
-                    Go to Admin Panel
-                </a>
-                
-                <div class="mt-8 text-sm text-gray-500">
-                    <p>Access the admin panel to manage your FAQs</p>
-                </div>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to FAQ Translation System</h1>
+            <p class="description">A powerful multilingual FAQ management system with automatic translation capabilities.</p>
+            <a href="/admin" class="admin-link">
+                <i class="ri-dashboard-line"></i>
+                Go to Admin Panel
+            </a>
+            <p class="subtitle">Access the admin panel to manage your FAQs</p>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <i class="ri-translate-2 icon"></i>
+                <h3>Automatic Translation</h3>
+                <p>Instantly translate FAQs into multiple languages</p>
+            </div>
+            <div class="feature">
+                <i class="ri-edit-2-line icon"></i>
+                <h3>Rich Text Editor</h3>
+                <p>Format your content with ease</p>
+            </div>
+            <div class="feature">
+                <i class="ri-database-2-line icon"></i>
+                <h3>Efficient Caching</h3>
+                <p>Optimized performance with Redis caching</p>
+            </div>
+            <div class="feature">
+                <i class="ri-api-line icon"></i>
+                <h3>RESTful API</h3>
+                <p>Easy integration with API endpoints</p>
             </div>
         </div>
     </div>
