@@ -12,10 +12,12 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-react": "^9.4.0",
     "@google-cloud/translate": "^8.0.0",
     "@vitalets/google-translate-api": "^9.2.1",
     "axios": "^1.7.9",
     "ckeditor4": "^4.25.0",
+    "ckeditor5": "^44.1.0",
     "connect-flash": "^0.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",

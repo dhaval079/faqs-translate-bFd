@@ -1,187 +1,205 @@
 <!-- src/views/admin/edit-faq.ejs -->
-<div class="card">
-    <div class="card-header">
-        <h2>Edit FAQ</h2>
-    </div>
-    <div class="card-body">
-        <form action="/admin/faqs/<%= faq._id %>?_method=PUT" 
-              method="POST" 
-              class="needs-validation" 
-              novalidate>
-            <div class="mb-3">
-                <label for="question" class="form-label">Question</label>
-                <input type="text" 
-                       class="form-control" 
-                       id="question" 
-                       name="question" 
-                       value="<%= faq.question %>" 
-                       required>
-                <div class="invalid-feedback">
-                    Please provide a question.
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="answer" class="form-label">Answer</label>
-                <div class="editor-container">
-                    <textarea class="form-control" 
-                              id="answer" 
-                              name="answer" 
-                              required><%- faq.answer %></textarea>
-                    <div class="invalid-feedback">
-                        Please provide an answer.
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <!-- Main Edit Card -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white border-0 pt-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h2 class="card-title mb-0">Edit FAQ</h2>
+                            <p class="text-muted mb-0">Update FAQ content and translations</p>
+                        </div>
+                        <a href="/admin" class="btn btn-outline-secondary">
+                            <i class="ri-arrow-left-line me-2"></i>Back to Dashboard
+                        </a>
                     </div>
                 </div>
-            </div>
-            <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary">
-                    <i class="ri-save-line me-2"></i>Update FAQ
-                </button>
-                <a href="/admin" class="btn btn-secondary">
-                    <i class="ri-arrow-left-line me-2"></i>Cancel
-                </a>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Show translations -->
-<div class="card mt-4">
-    <div class="card-header">
-        <h3>Translations</h3>
-    </div>
-    <div class="card-body">
-        <div class="accordion" id="translationsAccordion">
-            <% ['hi', 'es', 'bn'].forEach((lang, index) => { %>
-                <% const translation = faq.translations.get(lang) || {} %>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading<%= lang %>">
-                        <button class="accordion-button collapsed" 
-                                type="button" 
-                                data-bs-toggle="collapse"
-                                data-bs-target="#collapse<%= lang %>" 
-                                aria-expanded="false"
-                                aria-controls="collapse<%= lang %>">
-                            <%= lang.toUpperCase() %> Translation
-                        </button>
-                    </h2>
-                    <div id="collapse<%= lang %>" 
-                         class="accordion-collapse collapse"
-                         aria-labelledby="heading<%= lang %>" 
-                         data-bs-parent="#translationsAccordion">
-                        <div class="accordion-body">
+                <div class="card-body p-4">
+                    <form action="/admin/faqs/<%= faq._id %>?_method=PUT" method="POST" class="needs-validation" novalidate>
+                        <!-- English Content -->
+                        <div class="mb-4">
+                            <h5 class="mb-3 text-primary">
+                                <i class="ri-english-input me-2"></i>English Content
+                            </h5>
                             <div class="mb-3">
-                                <label class="form-label">Question</label>
-                                <div class="p-3 bg-light rounded">
-                                    <%= translation.question || 'No translation available' %>
-                                </div>
+                                <label for="question" class="form-label">Question</label>
+                                <input type="text" 
+                                       class="form-control form-control-lg" 
+                                       id="question" 
+                                       name="question" 
+                                       value="<%= faq.question %>" 
+                                       required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Answer</label>
-                                <div class="p-3 bg-light rounded">
-                                    <%- translation.answer || 'No translation available' %>
+                                <label for="answer" class="form-label">Answer</label>
+                                <textarea class="form-control editor-field" 
+                                          id="answer" 
+                                          name="answer" 
+                                          required><%- faq.answer %></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Translations Section -->
+                        <div class="translations-section mt-5">
+                            <h5 class="mb-4">
+                                <i class="ri-translate-2 me-2"></i>Translations
+                            </h5>
+                            
+                            <div class="row">
+                                <!-- Hindi Translation -->
+                                <div class="col-md-4 mb-4">
+                                    <div class="card h-100 border-0 shadow-sm">
+                                        <div class="card-header bg-light">
+                                            <h6 class="mb-0">
+                                                <span class="badge bg-primary me-2">HI</span>
+                                                Hindi Translation
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="mb-2 text-muted small">Question:</p>
+                                            <p class="mb-3"><%= faq.translations.get('hi')?.question || 'Not translated' %></p>
+                                            <p class="mb-2 text-muted small">Answer:</p>
+                                            <div class="translation-content">
+                                                <%- faq.translations.get('hi')?.answer || 'Not translated' %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Spanish Translation -->
+                                <div class="col-md-4 mb-4">
+                                    <div class="card h-100 border-0 shadow-sm">
+                                        <div class="card-header bg-light">
+                                            <h6 class="mb-0">
+                                                <span class="badge bg-success me-2">ES</span>
+                                                Spanish Translation
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="mb-2 text-muted small">Question:</p>
+                                            <p class="mb-3"><%= faq.translations.get('es')?.question || 'Not translated' %></p>
+                                            <p class="mb-2 text-muted small">Answer:</p>
+                                            <div class="translation-content">
+                                                <%- faq.translations.get('es')?.answer || 'Not translated' %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Bengali Translation -->
+                                <div class="col-md-4 mb-4">
+                                    <div class="card h-100 border-0 shadow-sm">
+                                        <div class="card-header bg-light">
+                                            <h6 class="mb-0">
+                                                <span class="badge bg-info me-2">BN</span>
+                                                Bengali Translation
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="mb-2 text-muted small">Question:</p>
+                                            <p class="mb-3"><%= faq.translations.get('bn')?.question || 'Not translated' %></p>
+                                            <p class="mb-2 text-muted small">Answer:</p>
+                                            <div class="translation-content">
+                                                <%- faq.translations.get('bn')?.answer || 'Not translated' %>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-between align-items-center mt-4 pt-2">
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                       type="checkbox" 
+                                       id="updateTranslations" 
+                                       name="updateTranslations" 
+                                       checked>
+                                <label class="form-check-label" for="updateTranslations">
+                                    Update translations automatically
+                                </label>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a href="/admin" class="btn btn-outline-secondary">
+                                    <i class="ri-close-line me-2"></i>Cancel
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="ri-save-line me-2"></i>Update FAQ
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            <% }) %>
+            </div>
         </div>
     </div>
 </div>
 
 <style>
-.editor-container {
-    margin-bottom: 1rem;
+.translation-content {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    min-height: 100px;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
-.cke_chrome {
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 0.5rem !important;
-    box-shadow: none !important;
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.cke_top {
-    border-bottom: 1px solid #e2e8f0 !important;
-    background: #f8fafc !important;
-    padding: 8px !important;
-    border-radius: 0.5rem 0.5rem 0 0 !important;
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
 }
 
-.cke_bottom {
-    border-top: 1px solid #e2e8f0 !important;
-    background: #f8fafc !important;
-    padding: 6px 8px !important;
-    border-radius: 0 0 0.5rem 0.5rem !important;
+.badge {
+    font-size: 0.8rem;
+    padding: 0.35em 0.65em;
 }
 
-.cke_contents {
-    padding: 1rem !important;
-    min-height: 300px !important;
+.form-control:focus {
+    border-color: #4F46E5;
+    box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize CKEditor
+    // Initialize form validation
+    const form = document.querySelector('.needs-validation');
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    });
+
+    // Initialize CKEditor with modern configuration
     CKEDITOR.replace('answer', {
         height: '300px',
         removePlugins: 'elementspath,resize',
-        toolbar: [
-            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
-            { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Blockquote'] },
-            { name: 'links', items: ['Link', 'Unlink'] },
-            { name: 'styles', items: ['Format'] },
-            { name: 'tools', items: ['Maximize'] },
-            { name: 'document', items: ['Source'] }
+        toolbarGroups: [
+            { name: 'styles', groups: ['styles'] },
+            { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
+            { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align'] },
+            { name: 'links' },
+            { name: 'insert' },
+            { name: 'tools' },
+            { name: 'document', groups: ['mode'] }
         ],
         format_tags: 'p;h2;h3;h4',
         removeButtons: '',
-        contentsCss: ['https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css'],
+        contentsCss: [
+            'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css'
+        ],
         allowedContent: true,
-        on: {
-            instanceReady: function(ev) {
-                // Set up form validation after editor is ready
-                setupFormValidation();
-                
-                // Add Bootstrap classes to elements
-                ev.editor.dataProcessor.htmlFilter.addRules({
-                    elements: {
-                        $: function(element) {
-                            if (element.name == 'table') {
-                                element.addClass('table');
-                            }
-                        }
-                    }
-                });
-            }
-        }
+        enterMode: CKEDITOR.ENTER_BR,
+        height: '250px'
     });
-
-    // Form validation setup
-    function setupFormValidation() {
-        const forms = document.querySelectorAll('.needs-validation');
-        
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-
-                // Check if CKEditor is empty
-                const editorContent = CKEDITOR.instances.answer.getData().trim();
-                if (!editorContent) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    // Add visual feedback
-                    document.querySelector('.editor-container').classList.add('is-invalid');
-                } else {
-                    document.querySelector('.editor-container').classList.remove('is-invalid');
-                }
-
-                form.classList.add('was-validated');
-            }, false);
-        });
-    }
 });
 </script>

@@ -42,25 +42,34 @@ app.use(helmet({
                 "'unsafe-inline'",
                 "'unsafe-eval'",
                 "cdn.jsdelivr.net",
-                "cdn.ckeditor.com"
+                "cdn.ckeditor.com",
+                "cke4.ckeditor.com"
+            ],
+            connectSrc: [
+                "'self'",
+                "cke4.ckeditor.com"
+            ],
+            imgSrc: [
+                "'self'",
+                "data:",
+                "cdn.jsdelivr.net",
+                "cke4.ckeditor.com"
             ],
             styleSrc: [
                 "'self'",
                 "'unsafe-inline'",
                 "cdn.jsdelivr.net",
-                "cdnjs.cloudflare.com"
+                "cdn.ckeditor.com"
             ],
-            imgSrc: ["'self'", "data:", "cdn.jsdelivr.net", "*"],
-            connectSrc: ["'self'"],
-            fontSrc: ["'self'", "cdn.jsdelivr.net", "cdnjs.cloudflare.com"],
+            fontSrc: [
+                "'self'",
+                "cdn.jsdelivr.net"
+            ],
             formAction: ["'self'"],
-            frameAncestors: ["'none'"],
-            objectSrc: ["'none'"],
             upgradeInsecureRequests: []
-        },
+        }
     },
-    crossOriginEmbedderPolicy: false,
-    crossOriginResourcePolicy: false
+    crossOriginEmbedderPolicy: false
 }));
 
 // CORS configuration
